@@ -1,0 +1,14 @@
+Install CubeMX from here: https://www.st.com/en/development-tools/stm32cubemx.html
+eval kit info: https://www.st.com/en/evaluation-tools/32f746gdiscovery.html#documentation 
+user manual: https://www.st.com/resource/en/user_manual/um1907-discovery-kit-for-stm32f7-series-with-stm32f746ng-mcu-stmicroelectronics.pdf
+schematic: https://www.st.com/resource/en/schematic_pack/mb1191-f746ngh6-c01_schematic.pdf
+Original software here (since we will overwrite the on the board): https://www.st.com/en/evaluation-tools/32f746gdiscovery.html#tools-software
+MCU datasheet & reference manual: https://www.st.com/en/microcontrollers-microprocessors/stm32f746ng.html#documentation
+IMU datasheet: https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf
+IMU programming manual: https://invensense.tdk.com/wp-content/uploads/2015/02/RM-MPU-9250A-00-v1.6.pdf
+
+Tool to search folders (helpful for copying one project to a new one): https://github.com/stefankueng/grepWin/releases/tag/2.0.15
+
+
+
+C:\Users\name\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32F7xxxx\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h
