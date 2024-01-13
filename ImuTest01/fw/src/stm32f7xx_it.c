@@ -22,11 +22,7 @@
 #include "stm32f7xx_it.h"
 
 /* External variables --------------------------------------------------------*/
-//extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
-//C:\MicroProjects\ImuTest01\fw\src\UsbCdc_STM32F7xx\usbd_conf.c
-
 extern PCD_HandleTypeDef hpcd;
-//C:\MicroProjects\ImuTest01\fw\src\stm32f7xx_it.c
 
 
 /******************************************************************************/

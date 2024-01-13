@@ -1,3 +1,5 @@
+Install Visual Studio Community Edition from https://visualstudio.microsoft.com/vs/community/
+VisualGDB: https://visualgdb.com/documentation/toolchains/embedded/
 Install CubeMX from here: https://www.st.com/en/development-tools/stm32cubemx.html
 eval kit info: https://www.st.com/en/evaluation-tools/32f746gdiscovery.html#documentation 
 user manual: https://www.st.com/resource/en/user_manual/um1907-discovery-kit-for-stm32f7-series-with-stm32f746ng-mcu-stmicroelectronics.pdf
@@ -9,6 +11,14 @@ IMU programming manual: https://invensense.tdk.com/wp-content/uploads/2015/02/RM
 
 Tool to search folders (helpful for copying one project to a new one): https://github.com/stefankueng/grepWin/releases/tag/2.0.15
 
-
-
 C:\Users\name\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\STM32F7xxxx\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h
+
+Qt installer: https://doc.qt.io/qtdesignstudio/studio-installation.html (online, create account first)
+https://www.qt.io/download-open-source
+
+C:\Apps\Qt\Tools\QtDesignStudio\qt6_design_studio_reduced_version\bin\designer.exe
+
+FCU: 6.5mm x 3.2mm
+PDU: 7.2mm x 3.3mm
+BCU: 7.2mm x 3.3mm
+

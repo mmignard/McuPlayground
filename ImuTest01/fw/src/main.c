@@ -18,6 +18,8 @@ int main(void)
 	MX_GPIO_Init();
 	InitUsb();
 	MX_SPI2_Init();
+	MX_TIM2_Init();
+	MX_TIM4_Init();
 	MX_ADC1_Init();
 	InitRegs();
 

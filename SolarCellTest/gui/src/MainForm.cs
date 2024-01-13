@@ -10,10 +10,10 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace ImuTest01NS {
+namespace SolarCellNS {
     public partial class MainForm : Form
     {
-        ImuTest01Comms theBoard;
+        SolarCellComms theBoard;
         int fwRev = 0;
         private bool boardConnected = false;
         bool boardInit = false;
@@ -24,13 +24,13 @@ namespace ImuTest01NS {
             guiRev.Text = "Rev XX";
             try
             {
-                theBoard = new ImuTest01Comms();
+                theBoard = new SolarCellComms();
                 PopulatePorts();
                 //Console.WriteLine(" in MainForm, is the board open?: " + theBoard.IsOpen);
                 checkBox_Connect.Checked = theBoard.IsOpen;
                 InitBoard();
             }
-            catch (ImuTest01Comms.Comm_Exception)
+            catch (SolarCellComms.Comm_Exception)
             {
                 Console.Write("caught comm_exception");
             }
@@ -41,7 +41,7 @@ namespace ImuTest01NS {
             try
             {
                 //theBoard.WriteLine("slj");
-                fwRev = theBoard.GetReg(ImuTest01Comms.REGS.RegFirmWareVersion);
+                fwRev = theBoard.GetReg(SolarCellComms.REGS.RegFirmWareVersion);
             }
             catch (Exception)
             {
@@ -84,7 +84,7 @@ namespace ImuTest01NS {
         {
             object selItem = comboBox_CommPort.SelectedItem;
 
-            List<string> portNames = ImuTest01Comms.GetPortNames();
+            List<string> portNames = SolarCellComms.GetPortNames();
             comboBox_CommPort.Enabled = false;
             comboBox_CommPort.Items.Clear();
             comboBox_CommPort.Items.AddRange(portNames.ToArray());
@@ -196,12 +196,12 @@ namespace ImuTest01NS {
         private void WriteHeaders()
         {
             tickChecked = false;
-            for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+            for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
             {
                 if (statusList.Rows[(int)i].Cells[0].Value.ToString() == true.ToString())
                 {
                     logFile.Write(i.ToString() + ',');
-                    if (i == ImuTest01Comms.REGS.RegTick)
+                    if (i == SolarCellComms.REGS.RegTick)
                     {
                         tickChecked = true;
                     }
@@ -255,24 +255,24 @@ namespace ImuTest01NS {
             timer1.Enabled = plot.Checked | log.Checked;
         }
 
-        private int getRegs(ImuTest01Comms.REGS i)
+        private int getRegs(SolarCellComms.REGS i)
         {
             UInt16 value = theBoard.GetReg(i);
             int result = value;
-            if (ImuTest01Comms.RegSigned(i))
+            if (SolarCellComms.RegSigned(i))
             {
                 result = (Int16)value;
             }
             return result;
         }
 
-        private int[] getRegs(ImuTest01Comms.REGS[] i)
+        private int[] getRegs(SolarCellComms.REGS[] i)
         {
             int[] result = new int[i.Length];
             UInt16[] uResult = theBoard.GetReg(i);
             for (int j = 0; j < i.Length; j++)
             {
-                if (ImuTest01Comms.RegSigned(i[j]))
+                if (SolarCellComms.RegSigned(i[j]))
                 {
                     result[j] = (Int16)uResult[j];
                 }
@@ -284,22 +284,22 @@ namespace ImuTest01NS {
             return result;
         }
 
-        ImuTest01Comms.REGS[] allRegs;
+        SolarCellComms.REGS[] allRegs;
 
         private void initRegs()
         {
             statusList.Enabled = true;
-            checkedCells = new List<ImuTest01Comms.REGS>();
+            checkedCells = new List<SolarCellComms.REGS>();
             statusList.Rows.Clear();
-            allRegs = new ImuTest01Comms.REGS[(int)ImuTest01Comms.REGS.RegLast];
-            for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+            allRegs = new SolarCellComms.REGS[(int)SolarCellComms.REGS.RegLast];
+            for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
             {
                 allRegs[(int)i] = i;
             }
             try
             {
                 int[] values = getRegs(allRegs);
-                for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+                for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
                 {
                     string[] labels = new string[3];
                     labels[0] = "False";
@@ -308,8 +308,8 @@ namespace ImuTest01NS {
                     statusList.Rows.Add(labels);
                 }
             }
-            catch (ImuTest01Comms.Comm_Exception) { }
-            statusList.Rows[(int)ImuTest01Comms.REGS.RegTick].Cells[2].ToolTipText = "ms";
+            catch (SolarCellComms.Comm_Exception) { }
+            statusList.Rows[(int)SolarCellComms.REGS.RegTick].Cells[2].ToolTipText = "ms";
         }
 
         private void UpdateRegsPlot()
@@ -318,9 +318,9 @@ namespace ImuTest01NS {
             {
                 int[] values = getRegs(allRegs);
 
-                for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+                for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
                 {
-                    if (ImuTest01Comms.RegHex(i))
+                    if (SolarCellComms.RegHex(i))
                     {
                         statusList.Rows[(int)i].Cells[2].Value = "0x"+values[(int)i].ToString("x");
                     }
@@ -342,7 +342,7 @@ namespace ImuTest01NS {
 
                         if (logFile != null)
                         {
-                            if (i == ImuTest01Comms.REGS.RegTick)
+                            if (i == SolarCellComms.REGS.RegTick)
                             {
                                 if (lastLogTick > value)
                                 {
@@ -379,9 +379,9 @@ namespace ImuTest01NS {
                     }
                 }
             }
-            catch (ImuTest01Comms.Comm_Exception)
+            catch (SolarCellComms.Comm_Exception)
             {
-                for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+                for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
                 {
                     statusList.Rows[(int)i].Cells[2].Value = "";
                 }
@@ -393,9 +393,9 @@ namespace ImuTest01NS {
             try
             {
                 int[] values = getRegs(allRegs);
-                for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+                for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
                 {
-                    if (ImuTest01Comms.RegHex(i))
+                    if (SolarCellComms.RegHex(i))
                     {
                         statusList.Rows[(int)i].Cells[2].Value = "0x" + values[(int)i].ToString("x");
                     }
@@ -405,9 +405,9 @@ namespace ImuTest01NS {
                     }
                 }
             }
-            catch (ImuTest01Comms.Comm_Exception)
+            catch (SolarCellComms.Comm_Exception)
             {
-                for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+                for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
                 {
                     statusList.Rows[(int)i].Cells[2].Value = "xxx";
                 }
@@ -420,14 +420,14 @@ namespace ImuTest01NS {
         }
 
         bool cellsChecked = false;
-        List<ImuTest01Comms.REGS> checkedCells;
+        List<SolarCellComms.REGS> checkedCells;
 
         private void statusList_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (!statusList.Enabled) return;
             if (e.ColumnIndex == statusList.Columns.IndexOf(selected))
             {
-                if (e.RowIndex >= (int)ImuTest01Comms.REGS.RegLast)
+                if (e.RowIndex >= (int)SolarCellComms.REGS.RegLast)
                 {
                     statusList.Rows[e.RowIndex].Cells[0].Value = false;
                     return;
@@ -435,7 +435,7 @@ namespace ImuTest01NS {
                 chart1.Series.Clear();
                 cellsChecked = false;
                 checkedCells.Clear();
-                for (ImuTest01Comms.REGS i = (ImuTest01Comms.REGS)0; i < ImuTest01Comms.REGS.RegLast; i++)
+                for (SolarCellComms.REGS i = (SolarCellComms.REGS)0; i < SolarCellComms.REGS.RegLast; i++)
                 {
                     if (statusList.Rows[(int)i].Cells[0].Value.ToString() == true.ToString())
                     {
@@ -462,7 +462,7 @@ namespace ImuTest01NS {
             }
             else if (e.ColumnIndex == statusList.Columns.IndexOf(newVal))
             {
-                if (e.RowIndex < 0 || e.RowIndex >= (int)ImuTest01Comms.REGS.RegLast)
+                if (e.RowIndex < 0 || e.RowIndex >= (int)SolarCellComms.REGS.RegLast)
                 {
                     return;
                 }
@@ -478,25 +478,25 @@ namespace ImuTest01NS {
                 }
                 try
                 {
-                    if (ImuTest01Comms.RegSigned((ImuTest01Comms.REGS)e.RowIndex))
+                    if (SolarCellComms.RegSigned((SolarCellComms.REGS)e.RowIndex))
                     {
                         if (newvalue >= -32768 && newvalue <= 32767)
                         {
-                            bool success = theBoard.SetReg((ImuTest01Comms.REGS)e.RowIndex, (ushort)newvalue);
+                            bool success = theBoard.SetReg((SolarCellComms.REGS)e.RowIndex, (ushort)newvalue);
                         }
-                        newvalue = (int)((short)theBoard.GetReg((ImuTest01Comms.REGS)e.RowIndex));
+                        newvalue = (int)((short)theBoard.GetReg((SolarCellComms.REGS)e.RowIndex));
                     }
                     else
                     {
                         if (newvalue >= 0 && newvalue <= 0xFFFF)
                         {
-                            bool success = theBoard.SetReg((ImuTest01Comms.REGS)e.RowIndex, (ushort)newvalue);
+                            bool success = theBoard.SetReg((SolarCellComms.REGS)e.RowIndex, (ushort)newvalue);
                         }
-                        newvalue = (int)theBoard.GetReg((ImuTest01Comms.REGS)e.RowIndex);
+                        newvalue = (int)theBoard.GetReg((SolarCellComms.REGS)e.RowIndex);
                     }
                     statusList[statusList.Columns.IndexOf(value), e.RowIndex].Value = newvalue.ToString();
                 }
-                catch (ImuTest01Comms.Comm_Exception)
+                catch (SolarCellComms.Comm_Exception)
                 {
                     statusList[statusList.Columns.IndexOf(value), e.RowIndex].Value = "";
                 }
@@ -573,7 +573,7 @@ namespace ImuTest01NS {
         private void InitParams()
         {
             parameters.Rows.Clear();
-            for (ImuTest01Comms.NVparams i = (ImuTest01Comms.NVparams)0; i < ImuTest01Comms.NVparams.NvLast; i++)
+            for (SolarCellComms.NVparams i = (SolarCellComms.NVparams)0; i < SolarCellComms.NVparams.NvLast; i++)
             {
                 string[] labels = new string[4];
                 labels[0] = ((int)i).ToString("D");
@@ -587,12 +587,12 @@ namespace ImuTest01NS {
 
         private void ReadParameters()
         {
-            for (ImuTest01Comms.NVparams i = (ImuTest01Comms.NVparams)0; i < ImuTest01Comms.NVparams.NvLast; i++)
+            for (SolarCellComms.NVparams i = (SolarCellComms.NVparams)0; i < SolarCellComms.NVparams.NvLast; i++)
             {
                 try
                 {
                     int value;
-                    if (ImuTest01Comms.NvpSigned(i))
+                    if (SolarCellComms.NvpSigned(i))
                     {
                         value = (int)((short)theBoard.GetNvParam(i));
                     }
@@ -604,7 +604,7 @@ namespace ImuTest01NS {
                     parameters[parameters.Columns.IndexOf(pValue), (int)i].Value = value.ToString("D");
                     parameters[parameters.Columns.IndexOf(newValue), (int)i].Value = "";
                 }
-                catch (ImuTest01Comms.Comm_Exception)
+                catch (SolarCellComms.Comm_Exception)
                 {
                     parameters[parameters.Columns.IndexOf(pValue), (int)i].Value = "";
                     parameters[parameters.Columns.IndexOf(newValue), (int)i].Value = "";
@@ -630,25 +630,25 @@ namespace ImuTest01NS {
             }
             try
             {
-                if (ImuTest01Comms.NvpSigned((ImuTest01Comms.NVparams)e.RowIndex))
+                if (SolarCellComms.NvpSigned((SolarCellComms.NVparams)e.RowIndex))
                 {
                     if (value >= -32768 && value <= 32767)
                     {
-                        bool success = theBoard.SetNvParam((ImuTest01Comms.NVparams)e.RowIndex, (ushort)value);
+                        bool success = theBoard.SetNvParam((SolarCellComms.NVparams)e.RowIndex, (ushort)value);
                     }
-                    value = (int)((short)theBoard.GetNvParam((ImuTest01Comms.NVparams)e.RowIndex));
+                    value = (int)((short)theBoard.GetNvParam((SolarCellComms.NVparams)e.RowIndex));
                 }
                 else
                 {
                     if (value >= 0 && value <= 0xFFFF)
                     {
-                        bool success = theBoard.SetNvParam((ImuTest01Comms.NVparams)e.RowIndex, (ushort)value);
+                        bool success = theBoard.SetNvParam((SolarCellComms.NVparams)e.RowIndex, (ushort)value);
                     }
-                    value = (int)theBoard.GetNvParam((ImuTest01Comms.NVparams)e.RowIndex);
+                    value = (int)theBoard.GetNvParam((SolarCellComms.NVparams)e.RowIndex);
                 }
                 parameters[parameters.Columns.IndexOf(pValue), e.RowIndex].Value = value.ToString("D");
             }
-            catch (ImuTest01Comms.Comm_Exception)
+            catch (SolarCellComms.Comm_Exception)
             {
                 parameters[parameters.Columns.IndexOf(pValue), e.RowIndex].Value = "";
             }
@@ -668,13 +668,13 @@ namespace ImuTest01NS {
             {
                 System.IO.StreamWriter strWri = new System.IO.StreamWriter(saveFileDialog1.FileName, false, Encoding.ASCII);
                 strWri.WriteLine("ID, Parameter, Value");
-                for (ImuTest01Comms.NVparams i = (ImuTest01Comms.NVparams)0; i < ImuTest01Comms.NVparams.NvLast; i++)
+                for (SolarCellComms.NVparams i = (SolarCellComms.NVparams)0; i < SolarCellComms.NVparams.NvLast; i++)
                 {
                     try
                     {
                         strWri.WriteLine(((int)i).ToString() + "," + i.ToString() + "," + ((int)theBoard.GetNvParam(i)).ToString("D"));
                     }
-                    catch (ImuTest01Comms.Comm_Exception)
+                    catch (SolarCellComms.Comm_Exception)
                     {
                         strWri.WriteLine(((int)i).ToString() + "," + i.ToString() + "," + "XXX");
                     }
@@ -694,7 +694,7 @@ namespace ImuTest01NS {
                 {
                     strRead = new System.IO.StreamReader(openFileDialog1.FileName, Encoding.ASCII);
                     strRead.ReadLine();
-                    for (ImuTest01Comms.NVparams i = (ImuTest01Comms.NVparams)0; i < ImuTest01Comms.NVparams.NvLast; i++)
+                    for (SolarCellComms.NVparams i = (SolarCellComms.NVparams)0; i < SolarCellComms.NVparams.NvLast; i++)
                     {
                         string line = strRead.ReadLine();
                         string[] tokens = line.Split(',');

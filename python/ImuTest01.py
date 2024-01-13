@@ -8,11 +8,11 @@ Created on Sun Nov 26 14:42:46 2023
 
 import numpy as np
 import matplotlib.pyplot as plt
+#pip install pyserial for the serial port stuff (does not work with pip install serial)
 import serial
 import serial.tools.list_ports
 import time
 from datetime import datetime
-
 
 ##########################################################################
 ###   Utility stuff for STM32F746 discovery board with ImuTest01 code
