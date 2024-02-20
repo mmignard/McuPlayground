@@ -38,10 +38,10 @@ int main(void)
 	SystemClock_Config();
 	MX_GPIO_Init();
 	MX_NVIC_Init();	
-	MX_SPI2_Init();
-	MX_TIM2_Init();
-	MX_TIM4_Init();
-	MX_ADC1_Init();
+//	MX_SPI2_Init();
+//	MX_TIM2_Init();
+//	MX_TIM4_Init();
+//	MX_ADC1_Init();
 	MX_USB_DEVICE_Init();
 	InitRegs();
     //Load_Params(0); //this causes a HardFault, probably because reading beyond flash
@@ -66,13 +66,13 @@ void BlinkGreenLed()
 	if ((sysTick - lastBlink) > blinkOnTime) {
 		if (bBlinkOn) {
 			// LED off
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_RESET);
 			bBlinkOn = 0;
 			lastBlink = sysTick;
 		}
 		else if ((sysTick - lastBlink) > blinkTime) {
 			// LED on
-			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_13, GPIO_PIN_SET);
 			bBlinkOn = 1;
 			lastBlink = sysTick;
 		}
