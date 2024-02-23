@@ -32,10 +32,10 @@ namespace ImuTest01NS {
             RegTick,                     //2, lower 16 bits of the 1mS system timer
             RegAdcTemp,                  //3, read temperature sensor internal to MCU, 0.76V @25degC + 2.5mV/degC, temp = 25+(nAdc*3.3/4095-0.76)/0.025, 1022 => 27.5degC
             RegAdcRef,                   //4, MCU internal reference voltage (1.2Vnom), should be around 1.2/3.3*4095 = 1500, can use to calculate voltage of 3.3V supply
-            RegImuWhoAmI,                //5, Who Am I register from IMU
-            RegImuAx,                    //6, accelerometer X value
-            RegImuAy,                    //7, accelerometer Y value
-            RegImuAz,                    //8, accelerometer Z value
+            //RegImuWhoAmI,                //5, Who Am I register from IMU
+            //RegImuAx,                    //6, accelerometer X value
+            //RegImuAy,                    //7, accelerometer Y value
+            //RegImuAz,                    //8, accelerometer Z value
             RegLast
         };
 
@@ -43,10 +43,10 @@ namespace ImuTest01NS {
         {
             switch (reg)
             {
-                case REGS.RegImuAx:
-                case REGS.RegImuAy:
-                case REGS.RegImuAz:
-                    return true;
+            //    case REGS.RegImuAx:
+            //    case REGS.RegImuAy:
+            //    case REGS.RegImuAz:
+            //        return true;
                 default:
                     return false;
             }

@@ -26,6 +26,7 @@ extern TIM_HandleTypeDef htim4;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void InitUsb(void);
 void MX_GPIO_Init(void);
 void MX_ADC1_Init(void);
 void MX_NVIC_Init(void);

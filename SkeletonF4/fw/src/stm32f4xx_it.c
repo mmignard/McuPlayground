@@ -37,7 +37,7 @@
 #include "main.h"
 #include "stm32f4xx_it.h"
 /* External variables --------------------------------------------------------*/
-extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+extern PCD_HandleTypeDef hpcd_USB_OTG_HS;
 extern TIM_HandleTypeDef htim2;
 
 /******************************************************************************/
@@ -130,10 +130,11 @@ void SysTick_Handler(void)
 /**
   * @brief This function handles USB On The Go FS global interrupt.
   */
-void OTG_FS_IRQHandler(void)
+void OTG_HS_IRQHandler(void)
 {
-  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
-}
+	HAL_PCD_IRQHandler(&hpcd_USB_OTG_HS);
+	}
+
 
 void TIM2_IRQHandler(void)
 {

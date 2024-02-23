@@ -36,7 +36,7 @@ void Parse()
         	SetReg(reg, val);
         	txLen = sprintf((char *)txBuf, "w%x=%x\n", reg, Regs.u16[reg]);
     	}
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
     	break;
 	case 'r': //read a register
 		sscanf((char *)&rxBuf[1], "%x\n", &reg);
@@ -49,7 +49,7 @@ void Parse()
         	ReadReg(reg);
         	txLen = sprintf((char *)txBuf, "r%x=%x\n", reg, Regs.u16[reg]);
     	}
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
     	break;
 	case 's': //write a nonvolatile parameter
 		sscanf((char *)&rxBuf[1], "%x=%x\n", &reg, &val);
@@ -62,7 +62,7 @@ void Parse()
         	Set_Parameter(reg, val);
         	txLen = sprintf((char *)txBuf, "s%x=%x\n", reg, SysParams.u16[reg]);
     	}
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
     	break;
 	case 'g': //read a nonvolatile parameter
 		sscanf((char *)&rxBuf[1], "%x\n", &reg);
@@ -74,11 +74,11 @@ void Parse()
     	{
         	txLen = sprintf((char *)txBuf, "g%x=%x\n", reg, SysParams.u16[reg]);
     	}
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
     	break;
 	case 'f': //flash all the current nonvolatile registers
 		txLen = sprintf((char *)txBuf, "f\n");
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
     	break;
 /*		
     case 'y': //send next portion of full tilt data buffer. Buffer is 4096 int16_t words, but txBuf is only 2048 unit8_t long, so need to call this 4 times
@@ -91,7 +91,7 @@ void Parse()
         	else
             	txLen += sprintf((char *)&txBuf[txLen], "%d,", smoothTiltFull[fullIndex++]);
     	}
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
     	break;
 	case 'z': //send next portion of full tilt data buffer. Buffer is 4096 int16_t words, but txBuf is only 2048 unit8_t long, so need to call this 4 times
 		//Had issues with sending binary words (kept getting read error), so switched to decimal. Even then, if numsPerBuf is > 8, get read timeout.
@@ -103,12 +103,12 @@ void Parse()
         	else
             	txLen += sprintf((char *)&txBuf[txLen], "%d,", rawTiltFull[fullIndex++]);
     	}
-    	CDC_Transmit_FS(txBuf, txLen);
+    	CDC_Transmit_HS(txBuf, txLen);
 		break;
 */
 	default:
 		txLen += sprintf((char *)&txBuf[txLen], "not a valid input\n");
-		CDC_Transmit_FS(txBuf, txLen);
+		CDC_Transmit_HS(txBuf, txLen);
 		break;
 		
 	}

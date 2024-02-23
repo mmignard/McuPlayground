@@ -17,6 +17,7 @@ TIM_HandleTypeDef htim4;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void InitUsb(void);
 void MX_GPIO_Init(void);
 void MX_ADC1_Init(void);
 void MX_NVIC_Init(void);
@@ -65,12 +66,12 @@ void MX_GPIO_Init(void)
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14, GPIO_PIN_RESET);
-	GPIO_InitStruct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14, GPIO_PIN_RESET);
+//	GPIO_InitStruct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14;
+//	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+//	GPIO_InitStruct.Pull = GPIO_NOPULL;
+//	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 	GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -116,14 +117,15 @@ void SystemClock_Config(void)
 	* in the RCC_OscInitTypeDef structure.
 	*/
 	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-	RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
 	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
 	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
 	RCC_OscInitStruct.PLL.PLLM = 4;
 	RCC_OscInitStruct.PLL.PLLN = 144;
 	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
 	RCC_OscInitStruct.PLL.PLLQ = 6;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+	temp = HAL_RCC_OscConfig(&RCC_OscInitStruct);
+	if(temp != HAL_OK)
 	{
 		Error_Handler();
 	}

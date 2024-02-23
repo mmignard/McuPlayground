@@ -232,7 +232,6 @@ namespace ImuTest01NS {
         {
             timer1.Interval = (int)period.Value;
             timer1.Enabled = plot.Checked | log.Checked;
-            MessageBox.Show("Hello");
         }
 
         private void log_CheckedChanged(object sender, EventArgs e)
